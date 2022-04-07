@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% extends "layout.html" %}
+        {% block content %}
+            <div class="nhsuk-back-link">
+                <a class="nhsuk-back-link__link" href="/incidents">
+                    <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" height="24" width="24">
+                        <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
+                    </svg>
+                    Go back
+                </a>
+            </div>
+            <h1>Incident - {{incident.id}} </h1>
+            <form method="POST" action="/api/v1/incident/{{incident.id}}">
+                <div class="nhsuk-form-group">
+                    <label class="nhsuk-label" for="assignee">
+                        Assignee: {{incident.assignee.first_name}} {{incident.assignee.last_name}}
+                    </label>
+                    <select class="nhsuk-select" id="assignee" name="assignee">
+                        <option  disabled selected>Use this dropdown to change assignee</option>
+                        {% for user in users %}
+                            <option value="{{user.id}}" >{{user.first_name}} {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="nhsuk-form-group">
+                    <label class="nhsuk-label" for="title">
+                        Title
+                    </label>
+                    <input class="nhsuk-input" id="title" name="title" type="text"  value="{{incident.title}}">
+                </div>
+                <div class="nhsuk-form-group">
+                    <label class="nhsuk-label" for="description">
+                        Description
+                    </label>
+                    <textarea class="nhsuk-textarea" id="description" name="description" rows="5"  >{{incident.description}}</textarea>
+                </div>
+                <button class="nhsuk-button" >Save Changes</button>
+            </form>
+
+            <details class="nhsuk-details">
+                <summary class="nhsuk-details__summary">
+                    <span class="nhsuk-details__summary-text">
+                        Create a task for this Incident
+                    </span>
+                </summary>
+                <div class="nhsuk-details__text">
+                    <form method="POST" action="/api/v1/task?incident_id={{incident.id}}">
+                        <div class="nhsuk-form-group">
+                            <label class="nhsuk-label nhsuk-label--m" for="title">
+                                Title
+                            </label>
+                            <input class="nhsuk-input" id="title" name="title" type="text">
+                        </div>
+                        <div class="nhsuk-form-group">
+
+                            <label class="nhsuk-label nhsuk-label--m" for="assignee">
+                                Assignee (OPTIONAL)
+                            </label>
+                            <select class="nhsuk-select" id="assignee" name="assignee">
+                                <option  disabled selected>Use this dropdown to change assignee</option>
+                                {% for user in users %}
+                                    <option value="{{user.id}}" >{{user.full_name()}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="nhsuk-form-group">
+                            <label class="nhsuk-label nhsuk-label--m" for="description">
+                                Description
+                            </label>
+                            <textarea class="nhsuk-textarea" id="description" name="description" rows="5"></textarea>
+                        </div>
+                        <button class="nhsuk-button" type="submit">
+                            Create
+                        </button>
+                    </form>
+
+                </div>
+            </details>
+
+            <table class="nhsuk-table-responsive" role="table">
+                <caption class="nhsuk-table__caption">
+                    Tasks
+                </caption>
+                <thead class="nhsuk-table__head" role="rowgroup">
+                    <tr role="row">
+                        <th class="" role="columnheader" scope="col">
+                            Id
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Title
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Assignee
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Actions
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="nhsuk-table__body">
+                    {% for task in incident.tasks %}
+                        <tr class="nhsuk-table__row" role="row">
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Id
+                                </span>
+                                {{ task.id }}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Title
+                                </span>
+                                {{ task.title }}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Assignee
+                                </span>
+                                {% if task.assignee %}{{ task.assignee.full_name() }}{%endif%}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Actions
+                                </span>
+                                <a href="/tasks/{{task.id}}">View More Info</a>
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <a href="/api/v1/task/{{task.id}}/delete">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endblock %}
+    </body>
+</html>

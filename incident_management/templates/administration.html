@@ -1,0 +1,68 @@
+{% extends "layout.html" %} {% block content %}
+    <h1>Administration</h1>
+    <p>Manage users and permissions</p>
+
+    <table class="nhsuk-table-responsive" role="table">
+        <caption class="nhsuk-table__caption">
+            Users
+        </caption>
+        <thead class="nhsuk-table__head" role="rowgroup">
+            <tr role="row">
+                <th class="" role="columnheader" scope="col">
+                    Id
+                </th>
+                <th class="" role="columnheader" scope="col">
+                    Name
+                </th>
+                <th class="" role="columnheader" scope="col">
+                    Role
+                </th>
+                <th class="" role="columnheader" scope="col">
+                    Actions
+                </th>
+                <th class="" role="columnheader" scope="col">
+
+                </th>
+            </tr>
+        </thead>
+        <tbody class="nhsuk-table__body">
+            {% for user in users %}
+                <tr class="nhsuk-table__row" role="row">
+                    <td class="nhsuk-table__cell" role="cell">
+                        <span class="nhsuk-table-responsive__heading">
+                            Id
+                        </span>
+                        {{ user.id }}
+                    </td>
+                    <td class="nhsuk-table__cell" role="cell">
+                        <span class="nhsuk-table-responsive__heading">
+                            Name
+                        </span>
+                        {{ user.full_name() }}
+                    </td>
+                    <td class="nhsuk-table__cell" role="cell">
+                        <span class="nhsuk-table-responsive__heading">
+                            Role
+                        </span>
+                        {{user.role}}
+                    </td>
+                    <td class="nhsuk-table__cell" role="cell">
+                        <span class="nhsuk-table-responsive__heading">
+                            Actions
+                        </span>
+                        {% if user.role == "ADMIN"%}
+                            <a href="/administration/{{user.id}}/revoke_admin">Revoke Admin Privileges</a>
+                        {% elif user.role == "EMPLOYEE"%}
+                            <a href="/administration/{{user.id}}/apply_admin">Give Admin Privileges</a>
+
+                        {% endif %}
+                    </td>
+                    <td class="nhsuk-table__cell" role="cell">
+                        <a href="/administration/{{user.id}}/delete">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody></table>
+
+{% endblock %}
+

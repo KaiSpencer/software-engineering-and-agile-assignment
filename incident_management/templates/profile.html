@@ -1,0 +1,40 @@
+{% extends "layout.html" %} {% block content %}
+    <h1>My Profile</h1>
+    <p>Make changes to your details </p>
+    <form method="POST" action="/profile">
+        <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--l" for="email">
+                Email
+            </label>
+            <input class="nhsuk-input" id="email" name="email" type="text" disabled placeholder="{{current_user.email}}">
+        </div>
+
+        <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--l" for="first-name">
+                First Name
+            </label>
+            {{form.first_name}}
+        </div>
+
+        <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--l" for="last-name">
+                Last Name
+            </label>
+            {{form.last_name}}
+        </div>
+        <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--l" for="password">
+                Password
+            </label>
+            {{form.password}}
+        </div>
+        <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--l" for="confirm-password">
+                Confirm Password
+            </label>
+            {{form.confirm_password}}
+        </div>
+        {{form.submit}}
+    </form>
+{% endblock %}
+

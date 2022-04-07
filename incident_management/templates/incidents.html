@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% extends "layout.html" %}
+        {% block content %}
+            <details class="nhsuk-details">
+                <summary class="nhsuk-details__summary">
+                    <span class="nhsuk-details__summary-text">
+                        Create a new Incident
+                    </span>
+                </summary>
+                <div class="nhsuk-details__text">
+                    <form method="POST" action="/api/v1/incident">
+                        <div class="nhsuk-form-group">
+                            <label class="nhsuk-label nhsuk-label--m" for="title">
+                                Title
+                            </label>
+                            <input class="nhsuk-input" id="title" name="title" type="text">
+                        </div>
+                        <div class="nhsuk-form-group">
+                            <label class="nhsuk-label nhsuk-label--m" for="description">
+                                Description
+                            </label>
+                            <textarea class="nhsuk-textarea" id="description" name="description" rows="5"></textarea>
+                        </div>
+                        <button class="nhsuk-button" type="submit">
+                            Create
+                        </button>
+                    </form>
+
+                </div>
+            </details>
+            <table class="nhsuk-table-responsive" role="table">
+                <caption class="nhsuk-table__caption">
+                    Incidents
+                </caption>
+                <thead class="nhsuk-table__head" role="rowgroup">
+                    <tr role="row">
+                        <th class="" role="columnheader" scope="col">
+                            Id
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Title
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Assignee
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+                            Actions
+                        </th>
+                        <th class="" role="columnheader" scope="col">
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="nhsuk-table__body">
+                    {% for incident in incidents %}
+                        <tr class="nhsuk-table__row" role="row">
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Id
+                                </span>
+                                {{ incident.id }}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Title
+                                </span>
+                                {{ incident.title }}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Assignee
+                                </span>
+                                {% if incident.assignee %}
+                                    {{ incident.assignee.full_name() }}
+                                {%endif%}
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <span class="nhsuk-table-responsive__heading">
+                                    Actions
+                                </span>
+                                <a href="/incidents/{{incident.id}}">View More Info</a>
+                            </td>
+                            <td class="nhsuk-table__cell" role="cell">
+                                <a href="/api/v1/incident/{{incident.id}}/delete">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% endblock %}
+    </body>
