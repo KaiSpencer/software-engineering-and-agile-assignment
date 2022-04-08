@@ -1,7 +1,8 @@
 format:
-	djhtml -i ./incident_management/templates/**/*.html ./incident_management/templates/*.html
+	djhtml -i ./templates/**/*.html ./templates/*.html && \
+	black .
 
 dev:
-	python3 incident_management/app.py
+	python3 app.py
 
 .PHONY: format dev

@@ -3,6 +3,7 @@
     <body>
         {% extends "layout.html" %}
         {% block content %}
+            <h1>Incidents</h1><p>To create a new incident, use the Create a new incident link below. Active incidents are shown in the table on this page, use the Actions column to View, Edit or Delete an incident.</p>
             <details class="nhsuk-details">
                 <summary class="nhsuk-details__summary">
                     <span class="nhsuk-details__summary-text">
@@ -31,9 +32,6 @@
                 </div>
             </details>
             <table class="nhsuk-table-responsive" role="table">
-                <caption class="nhsuk-table__caption">
-                    Incidents
-                </caption>
                 <thead class="nhsuk-table__head" role="rowgroup">
                     <tr role="row">
                         <th class="" role="columnheader" scope="col">

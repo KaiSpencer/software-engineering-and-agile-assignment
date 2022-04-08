@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT app:heroku_app
+web: gunicorn app:heroku_app

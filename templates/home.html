@@ -1,0 +1,32 @@
+{% extends "layout.html" %} {% block content %}
+    <title>Incident Management</title>
+    <h1>Hello {{ current_user.first_name }}!</h1>
+    <p>Use the top navigation or the cards below to view incidents or make changes to your profile.</p>
+    <ul class="nhsuk-grid-row nhsuk-card-group">
+        <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+
+            <div class="nhsuk-card nhsuk-card--clickable">
+                <div class="nhsuk-card__content">
+                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                        <a class="nhsuk-card__link" href="/incidents">Incidents</a>
+                    </h2>
+                    <p class="nhsuk-card__description">View all incidents</p>
+                </div>
+            </div>
+
+        </li>
+        <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+
+            <div class="nhsuk-card nhsuk-card--clickable">
+                <div class="nhsuk-card__content">
+                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                        <a class="nhsuk-card__link" href="/profile">Profile</a>
+                    </h2>
+                    <p class="nhsuk-card__description">Make changes to your user Profile</p>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+{% endblock %}
+

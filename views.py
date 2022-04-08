@@ -24,7 +24,7 @@ def page_not_found(e):
 @bp.route("/")
 def landing():
     """Landing, if logged in, send to home, if not prompt login"""
-    if current_user:
+    if current_user and login_fresh():
         return redirect(url_for(".home"))
     return redirect(url_for("auth.login"))
 
