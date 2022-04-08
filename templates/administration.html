@@ -57,9 +57,11 @@
 
                         {% endif %}
                     </td>
-                    <td class="nhsuk-table__cell" role="cell">
-                        <a href="/administration/{{user.id}}/delete">Delete</a>
-                    </td>
+                    {% if current_user.role == "ADMIN"%}
+                        <td class="nhsuk-table__cell" role="cell">
+                            <a href="/administration/{{user.id}}/delete">Delete</a>
+                        </td>
+                    {%endif%}
                 </tr>
             {% endfor %}
         </tbody></table>

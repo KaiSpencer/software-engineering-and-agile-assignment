@@ -80,9 +80,12 @@
                                 </span>
                                 <a href="/incidents/{{incident.id}}">View More Info</a>
                             </td>
+                            {% if user.role == "ADMIN"%}
+
                             <td class="nhsuk-table__cell" role="cell">
                                 <a href="/api/v1/incident/{{incident.id}}/delete">Delete</a>
                             </td>
+                            {%endif%}
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -42,7 +42,7 @@ def home():
 def incidents():
     """View all Incidents"""
     incidents = Incident.query.all()
-    return render_template("incidents.html", incidents=incidents)
+    return render_template("incidents.html", incidents=incidents, user=current_user)
 
 
 @bp.route("/incidents/<incident_id>")
@@ -51,7 +51,9 @@ def incident(incident_id):
     """View a specific Incident"""
     query_incident = Incident.query.get(int(incident_id))
     users = User.query.all()
-    return render_template("incident.html", incident=query_incident, users=users)
+    return render_template(
+        "incident.html", incident=query_incident, users=users, user=current_user
+    )
 
 
 @bp.route("/tasks")
@@ -112,13 +114,16 @@ def apply_admin(user_id):
 @bp.route("/administration/<user_id>/delete")
 @login_required
 def delete_admin(user_id):
-    """Remove a user account"""
+    """Remove a user account, Restriced to users with the ADMIN role"""
+    if current_user.role != "ADMIN":
+        raise Exception("Only admin users can delete")
+
     users = User.query.all()
     user = User.query.get(user_id)
 
     db.session.delete(user)
     db.session.commit()
-    return render_template("administration.html", users=users)
+    return redirect(url_for("views.administration"))
 
 
 @bp.route("/profile", methods=["GET", "POST"])
