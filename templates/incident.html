@@ -11,6 +11,36 @@
                     Go back
                 </a>
             </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="nhsuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+                    <h2 class="nhsuk-error-summary__title" id="error-summary-title">
+                        There was a creating that task.
+                    </h2>
+                    <div class="nhsuk-error-summary__body">
+                        <ul class="nhsuk-list nhsuk-error-summary__list">
+
+                        {% for message in messages %}
+                            {% if message == "missing-title" %}
+                                <li>
+                                    <a href="#title">
+
+                                        A title is required
+                                    </a>
+                                </li>
+                            {% elif message == "missing-description"%}
+                                <li>
+                                    <a href="#description">
+                                        A description is required
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}</ul>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endwith %}
             <h1>Incident - {{incident.id}} </h1>
             <form method="POST" action="/api/v1/incident/{{incident.id}}">
                 <div class="nhsuk-form-group">
@@ -39,7 +69,7 @@
                 <button class="nhsuk-button" >Save Changes</button>
             </form>
 
-            <details class="nhsuk-details">
+            <details class="nhsuk-details" open>
                 <summary class="nhsuk-details__summary">
                     <span class="nhsuk-details__summary-text">
                         Create a task for this Incident
@@ -132,9 +162,9 @@
                             </td>
                             {% if user.role == "ADMIN"%}
 
-                            <td class="nhsuk-table__cell" role="cell">
-                                <a href="/api/v1/task/{{task.id}}/delete">Delete</a>
-                            </td>{%endif%}
+                                <td class="nhsuk-table__cell" role="cell">
+                                    <a href="/api/v1/task/{{task.id}}/delete">Delete</a>
+                                </td>{%endif%}
                         </tr>
                     {% endfor %}
                 </tbody>

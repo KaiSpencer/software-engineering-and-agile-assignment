@@ -3,8 +3,38 @@
     <body>
         {% extends "layout.html" %}
         {% block content %}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="nhsuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+                        <h2 class="nhsuk-error-summary__title" id="error-summary-title">
+                            There was a problem making that request.
+                        </h2>
+                        <div class="nhsuk-error-summary__body">
+                            <ul class="nhsuk-list nhsuk-error-summary__list">
+
+                            {% for message in messages %}
+                                {% if message == "missing-title" %}
+                                    <li>
+                                        <a href="#title">
+
+                                            A title is required
+                                        </a>
+                                    </li>
+                                {% elif message == "missing-description"%}
+                                    <li>
+                                        <a href="#description">
+                                            A description is required
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}</ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endwith %}
             <h1>Incidents</h1><p>To create a new incident, use the Create a new incident link below. Active incidents are shown in the table on this page, use the Actions column to View, Edit or Delete an incident.</p>
-            <details class="nhsuk-details">
+            <details class="nhsuk-details" open>
                 <summary class="nhsuk-details__summary">
                     <span class="nhsuk-details__summary-text">
                         Create a new Incident
@@ -82,9 +112,9 @@
                             </td>
                             {% if user.role == "ADMIN"%}
 
-                            <td class="nhsuk-table__cell" role="cell">
-                                <a href="/api/v1/incident/{{incident.id}}/delete">Delete</a>
-                            </td>
+                                <td class="nhsuk-table__cell" role="cell">
+                                    <a href="/api/v1/incident/{{incident.id}}/delete">Delete</a>
+                                </td>
                             {%endif%}
                         </tr>
                     {% endfor %}

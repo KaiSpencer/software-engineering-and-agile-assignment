@@ -118,7 +118,6 @@ def delete_admin(user_id):
     if current_user.role != "ADMIN":
         raise Exception("Only admin users can delete")
 
-    users = User.query.all()
     user = User.query.get(user_id)
 
     db.session.delete(user)

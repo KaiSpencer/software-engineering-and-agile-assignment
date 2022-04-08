@@ -24,8 +24,11 @@ class Profile(FlaskForm):
         "password",
         validators=[
             Length(
-                min=8, max=150, message="Password must be between 8 and 150 characters"
+                min=8,
+                max=150,
+                message="Password must be between 8 and 150 characters",
             ),
+            InputRequired("Passoword is required."),
         ],
         render_kw=NHSUK_FORM_STYLES["input"],
     )
@@ -33,6 +36,7 @@ class Profile(FlaskForm):
         "confirm_password",
         validators=[
             EqualTo("password", message="Passwords must match"),
+            InputRequired("Password is required"),
         ],
         render_kw=NHSUK_FORM_STYLES["input"],
     )

@@ -12,17 +12,22 @@ bp = Blueprint("auth", __name__, url_prefix="/auth/")
 
 @bp.route("/login")
 def login():
+    """Login page"""
     return render_template("auth/login.html")
 
 
 @bp.route("/login", methods=["POST"])
 def login_post():
+    """
+    Perform login
+    Check user exists in db
+    Check passwords match
+    """
     # login code goes here
     email = request.form.get("email")
     password = request.form.get("password")
 
     user = User.query.filter_by(email=email).first()
-    print("user", check_password_hash(user.password, password))
 
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
@@ -39,6 +44,10 @@ def login_post():
 
 @bp.route("/signup", methods=["GET", "POST"])
 def signup():
+    """
+    Signup form
+    Form throws error if user already exists
+    """
     form = SignUp()
     if form.is_submitted() and form.validate():
         user = User(

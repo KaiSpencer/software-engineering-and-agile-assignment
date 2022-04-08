@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request
+from flask import Blueprint, flash, redirect, url_for, request
 
 from models import Task
 from models import User
@@ -16,6 +16,13 @@ def create_incident():
     """
     title = request.form.get("title")
     description = request.form.get("description")
+
+    if not title or not description:
+        if not title:
+            flash("missing-title")
+        if not description:
+            flash("missing-description")
+        return redirect(url_for("views.incidents"))
 
     incident = Incident(title=title, description=description)
 
@@ -65,6 +72,14 @@ def create_task():
     assignee_id = request.form.get("assignee")
     incident_id = request.args.get("incident_id")
     incident = Incident.query.get(incident_id)
+
+    # Handle errors
+    if not title or not description:
+        if not title:
+            flash("missing-title")
+        if not description:
+            flash("missing-description")
+        return redirect(f"/incidents/{incident.id}")
 
     if not assignee_id:
         task = Task(title=title, description=description, incident=incident)
