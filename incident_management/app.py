@@ -5,8 +5,6 @@ from dotenv import load_dotenv, find_dotenv
 from werkzeug.security import generate_password_hash
 from flask_login import LoginManager
 
-from constants import ADMIN_ROLE
-from models import User
 from views import bp
 from api import bp_v1 as api_bp
 from auth import bp as auth_bp
@@ -45,7 +43,9 @@ def create_app():
         # since the user_id is just the primary key of our user table, use it in the query for the user
         return User.query.get(int(user_id))
 
-    if not os.path.exists("incident_management/database.db"):
+    if not os.path.exists("incident_management/database.db") and not os.path.exists(
+        "database.db"
+    ):
         with app.app_context():
             db.create_all()
             admin = User(
@@ -64,3 +64,5 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     app.run(host="localhost", port=8080)
+
+heroku_app = create_app()
